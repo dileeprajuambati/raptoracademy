@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RAPTOR ACADEMY</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --nav-navy: #07294d;
+      --deep-navy: #03183a;
+      --gold: #d4af37;
+      --accent: #c99a2a;
+      --card-bg: #ffffff;
+      --muted: #6b7280;
+    }
+    html { scroll-behavior: smooth; }
+    body{
+      margin:0;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: #f6f7f9;
+      color: #0b1730;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: linear-gradient(180deg,var(--nav-navy),var(--deep-navy));
+      box-shadow: 0 6px 18px rgba(3,24,58,0.18);
+    }
+    .navbar-brand { color: #fff; font-weight:800; letter-spacing:1px; }
+    .nav-link { color: rgba(255,255,255,0.95) !important; font-weight:600; }
+    .navbar .ra-badge {
+      width:48px; height:48px; border-radius:50%;
+      display:inline-flex; align-items:center; justify-content:center;
+      font-weight:800; color:#fff; background: linear-gradient(145deg,#15355b,#06204a);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+      margin-right:10px;
+      border: 3px solid rgba(212,175,55,0.12);
+    }
+    .navbar-toggler { border: none; }
+    .navbar-toggler:focus { outline: none; box-shadow:none; }
+
+    /* ANNOUNCEMENTS TICKER */
+    .announcements {
+      background: linear-gradient(90deg, rgba(3,24,58,0.96), rgba(7,39,72,0.96));
+      color: #fff;
+      padding: 10px 0;
+      overflow: hidden;
+    }
+    .announcements .ticker-wrap { white-space: nowrap; display:flex; align-items:center; gap:18px; }
+    .announcements .speaker { font-size:20px; margin-right:12px; display:inline-flex; align-items:center; }
+    .ticker {
+      display:inline-block;
+      will-change:transform;
+      animation: scroll-left 18s linear infinite;
+      padding-left: 16px;
+    }
+    .ticker-item { display:inline-block; margin-right:48px; color: #fffbf3; font-weight:600; }
+    @keyframes scroll-left {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); } /* long enough to loop */
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 460px;
+      display:flex; align-items:center; justify-content:center;
+      background-image: url('https://images.unsplash.com/photo-1605478060354-fdd636ea3f5d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1527');
+      background-size: cover; background-position: center 67%;
+      color: #fff;
+    }
+    .hero::after {
+      content: ""; position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(3,24,58,0.72), rgba(3,24,58,0.72));
+      z-index:0;
+    }
+    .hero .hero-inner { position:relative; z-index:2; text-align:center; padding:48px 16px; max-width:1100px; }
+    .hero h1 {
+      font-size: clamp(30px, 6vw, 48px);
+      font-weight:800; line-height:1.02; margin-bottom:8px;
+      text-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    }
+    .hero .subtitle {
+      color: #fff; opacity:0.95; font-size:16px; margin-bottom:12px;
+    }
+    .hero .gold-line {
+      color: var(--gold); font-weight:700; margin-top:6px;
+      font-size:14px;
+    }
+    .btn-cta {
+      background: linear-gradient(90deg,var(--gold),var(--accent));
+      color: #08102a; border-radius:14px; padding:12px 28px; font-weight:800;
+      box-shadow: 0 12px 30px rgba(3,24,58,0.28);
+    }
+
+    /* SECTION TITLES */
+    .section-title { margin-top:32px; margin-bottom:18px; text-align:center; }
+    .section-title h2 { font-weight:800; color: var(--deep-navy); }
+    .section-title p { color:var(--muted); margin:0; }
+
+    /* COURSES: equal height columns + polished look */
+    .courses { padding:40px 0; }
+    .courses .row { gap:24px; align-items:stretch; }
+    .course-card {
+      border-radius:12px; overflow:hidden; position:relative; display:flex; flex-direction:column;
+      height: 100%; background:var(--card-bg);
+      box-shadow: 0 12px 30px rgba(3,24,58,0.06);
+      transition: transform .35s cubic-bezier(.2,.9,.3,1), box-shadow .35s;
+      display:flex;
+    }
+    .course-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(3,24,58,0.14); }
+    .course-media { flex:0 0 240px; overflow:hidden; } /* fixed media area for consistent visual */
+    .course-media img { width:100%; height:100%; object-fit:cover; display:block; }
+    .course-body { padding:18px; flex:1 1 auto; display:flex; align-items:center; justify-content:center; }
+    .card-caption { font-size:20px; font-weight:800; color:var(--deep-navy); text-align:center; }
+
+    /* ensure equal height layout in bootstrap columns */
+    .equal-col { display:flex; flex-direction:column; height:100%; }
+
+    /* Faculty */
+    .faculty { padding:48px 0; }
+    .faculty .card {
+      border-radius:12px; padding:22px; display:flex; flex-direction:column; align-items:center;
+      text-align:center; min-height:320px; box-shadow: 0 12px 30px rgba(3,24,58,0.06);
+    }
+    .faculty .avatar {
+      width:120px; height:120px; border-radius:50%; overflow:hidden; margin-top:-64px;
+      border:6px solid #fff; box-shadow: 0 12px 30px rgba(3,24,58,0.12);
+      background: #fff;
+    }
+    .faculty .card h5 { margin-top:10px; font-weight:800; color:var(--deep-navy); }
+    .faculty .card p { color:var(--muted); margin-bottom:12px; }
+
+    /* Gallery */
+    .gallery { padding:48px 0; }
+    .carousel .carousel-inner img, .carousel .carousel-inner iframe, .carousel .carousel-inner video {
+      border-radius:12px; max-height:520px; width:100%; object-fit:cover;
+    }
+    .gallery .carousel { max-width:980px; margin:0 auto; }
+
+    /* premium gallery button */
+    .btn-premium {
+      background: linear-gradient(90deg,var(--gold),var(--accent));
+      color: #08102a; border-radius:14px; padding:12px 28px; font-weight:800;
+      box-shadow: 0 14px 36px rgba(3,24,58,0.18);
+      border: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .btn-premium:hover { transform: translateY(-4px); box-shadow: 0 22px 46px rgba(3,24,58,0.2); }
+
+    /* Join form */
+    .join { padding:48px 0; }
+    .join-card {
+      max-width:920px; margin: 0 auto; background:var(--card-bg); border-radius:12px; padding:26px;
+      box-shadow: 0 18px 46px rgba(3,24,58,0.06);
+    }
+    .form-note { color:var(--muted); font-size:13px; margin-top:10px; }
+
+    /* Footer */
+    footer { background: linear-gradient(180deg,var(--nav-navy),var(--deep-navy)); color:#fff; padding:36px 0; margin-top:32px; }
+
+    /* Floating WhatsApp */
+    .whatsapp-fab {
+      position: fixed; right: 20px; bottom: 20px; z-index:1200;
+      width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(180deg,#25d366,#1fa754); color:#fff; font-size:22px;
+      box-shadow: 0 12px 36px rgba(3,24,58,0.18);
+      border: 4px solid rgba(255,255,255,0.18);
+    }
+
+    /* Reveal */
+    .reveal { opacity:0; transform: translateY(12px); transition: all .6s cubic-bezier(.16,.8,.24,1); }
+    .reveal.visible { opacity:1; transform: translateY(0); }
+
+    /* Responsive tweaks */
+    @media (max-width: 992px){
+      .course-media { flex:0 0 180px; }
+      .carousel .carousel-inner img, .carousel .carousel-inner iframe, .carousel .carousel-inner video { max-height:420px; }
+      .faculty .card { min-height:300px; }
+      .hero { min-height:360px; padding-top:56px; }
+    }
+    @media (max-width: 768px){
+      .course-media { flex:0 0 160px; }
+      .course-card:hover { transform:none; } /* disable hover on touch for better UX */
+      .ticker { animation: scroll-left 26s linear infinite; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <div class="ra-badge" aria-hidden="true">RA</div>
+        <div>
+          <div style="font-weight:800;">RAPTOR ACADEMY</div>
+        </div>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item"><a class="nav-link" href="#announcements">Announcements</a></li>
+          <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="#faculty">Faculty</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="#join">Join</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ANNOUNCEMENTS TICKER -->
+  <div id="announcements" class="announcements">
+    <div class="container d-flex align-items-center">
+      <div class="speaker text-warning pe-2"><i class="fas fa-bullhorn"></i></div>
+      <div style="overflow:hidden; width:100%;">
+        <div class="ticker-wrap">
+          <div class="ticker">
+            <!-- Duplicate content in order to create seamless scroll -->
+            <span class="ticker-item">🔊 New batch for SI starts on Nov 20 — Enrollments open now.</span>
+            <span class="ticker-item">🔊 Free physical training demo every Saturday at 7 AM.</span>
+            <span class="ticker-item">🔊 Scholarship available for top performers — Contact admin.</span>
+            <span class="ticker-item">🔊 Raptor Academy won Best Training Institute 2025 (Regional).</span>
+            <span class="ticker-item">🔊 Apply early — limited seats for mock tests and field sessions.</span>
+
+            <!-- Repeat to make continuous loop -->
+            <span class="ticker-item">🔊 New batch for SI starts on Nov 20 — Enrollments open now.</span>
+            <span class="ticker-item">🔊 Free physical training demo every Saturday at 7 AM.</span>
+            <span class="ticker-item">🔊 Scholarship available for top performers — Contact admin.</span>
+            <span class="ticker-item">🔊 Raptor Academy won Best Training Institute 2025 (Regional).</span>
+            <span class="ticker-item">🔊 Apply early — limited seats for mock tests and field sessions.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-inner container reveal">
+      <h1>Train Hard at RAPTOR,<br> Serve Strong Tomorrow</h1>
+      <div class="subtitle">Join the best outdoor defense training for Police, Army, Navy, and Airforce aspirants</div>
+      <div class="gold-line">Where Discipline Meets Dedication</div>
+      <a href="#join" class="btn btn-cta mt-4">Join Raptor Academy</a>
+    </div>
+  </header>
+
+  <!-- COURSES -->
+  <section id="courses" class="courses">
+    <div class="container">
+      <div class="section-title">
+        <h2>Courses Offered</h2>
+        <p>Specialized training programs for every defense service aspiration</p>
+      </div>
+
+      <div class="row gy-4">
+        <!-- Police -->
+        <div class="col-12 col-md-6 col-lg-3 equal-col">
+          <div class="course-card reveal">
+            <div class="course-media">
+              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1600&auto=format&fit=crop&s=1e2e9f3e2f3d2a1b3c4d5e6f7a8b9c0d" alt="Police">
+            </div>
+            <div class="course-body">
+              <div class="card-caption">Police</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Army -->
+        <div class="col-12 col-md-6 col-lg-3 equal-col">
+          <div class="course-card reveal">
+            <div class="course-media">
+              <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=1600&auto=format&fit=crop&s=87c8c2f2c35b0f2dec0f0f12a3a87cf3" alt="Army">
+            </div>
+            <div class="course-body">
+              <div class="card-caption">Army</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navy -->
+        <div class="col-12 col-md-6 col-lg-3 equal-col">
+          <div class="course-card reveal">
+            <div class="course-media">
+              <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600&auto=format&fit=crop&s=9a0f9f2a7b6e8c3f2e1a5d4c3b2a1e0f" alt="Navy">
+            </div>
+            <div class="course-body">
+              <div class="card-caption">Navy</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Airforce -->
+        <div class="col-12 col-md-6 col-lg-3 equal-col">
+          <div class="course-card reveal">
+            <div class="course-media">
+              <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=1600&auto=format&fit=crop&s=3a7c3e4f5b6c7d8e9f0a1b2c3d4e5f6a" alt="Airforce">
+            </div>
+            <div class="course-body">
+              <div class="card-caption">Airforce</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- small training list -->
+      <div class="container mt-4">
+        <div class="rounded-3 p-3 text-center" style="background:#f1f5f9; border:1px solid rgba(3,24,58,0.04);">
+          <strong>Specialized Training For:</strong>
+          <div class="small text-muted mt-2">SI | PC | CISF | CRPF | BSF | ITBP | NIA | ASSAM RIFLES | SSF | SSB | RPF</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY (Images + Videos) -->
+  <section id="gallery" class="gallery">
+    <div class="container">
+      <div class="section-title">
+        <h2>Training Gallery & Programs</h2>
+        <p>Photos and videos from our training sessions and student achievements</p>
+      </div>
+
+      <div id="galleryCarousel" class="carousel slide mx-auto reveal" data-bs-ride="carousel" style="max-width:980px;">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://images.unsplash.com/photo-1558980394-0f7f2d1c6dba?q=80&w=1600&auto=format&fit=crop&s=3a7a6d6c5b4f3e2d1c0b9a8f7e6d5c4b" class="d-block w-100" alt="gallery1">
+          </div>
+
+          <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1600&auto=format&fit=crop&s=1c9b2f6f3b8c9d0e4f2a3b1c6d8e5f7a" class="d-block w-100" alt="gallery2">
+          </div>
+
+          <!-- Embedded YouTube (sample) -->
+          <div class="carousel-item">
+            <div class="ratio ratio-16x9">
+              <iframe src="https://www.youtube.com/embed/ysz5S6PUM-U" title="YouTube video" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <!-- Local video sample (autoplay disabled, muted optional) -->
+          <div class="carousel-item">
+            <video controls class="d-block w-100" style="border-radius:12px; max-height:520px;">
+              <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon bg-white rounded-circle p-2" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon bg-white rounded-circle p-2" aria-hidden="true" style="filter: hue-rotate(10deg);"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <div class="text-center mt-4">
+        <!-- Replace the URL below with your actual YouTube channel link -->
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="btn btn-premium">
+          <i class="fab fa-youtube me-2"></i> Explore Full Gallery
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FACULTY -->
+  <section id="faculty" class="faculty">
+    <div class="container">
+      <div class="section-title">
+        <h2>Our Expert Faculty</h2>
+        <p>Learn from experienced professionals and achievers</p>
+      </div>
+
+      <div class="row g-4 justify-content-center">
+        <div class="col-12 col-md-6 col-lg-4 d-flex">
+          <div class="card reveal flex-fill">
+            <div class="avatar mx-auto">
+              <img src="https://images.unsplash.com/photo-1545996124-1f17b35c3f5c?q=80&w=400&auto=format&fit=crop&s=6d2f9f4b8c9b6d3e4f1a2b3c9d8e7f6a" alt="Arramraju" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <h5>Arramraju Naveen Raju</h5>
+            <p>Arithmetic, Pure Maths & Reasoning Faculty</p>
+            <span class="badge" style="background: linear-gradient(90deg,var(--gold),var(--accent)); color:#08102a; font-weight:700; padding:8px 12px; border-radius:12px;">Faculty Head</span>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4 d-flex">
+          <div class="card reveal flex-fill">
+            <div class="avatar mx-auto">
+              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=400&auto=format&fit=crop&s=1e2e9f3e2f3d2a1b3c4d5e6f7a8b9c0d" alt="Thota" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <h5>Thota Harish</h5>
+            <p>RSI (Group 2 Ranker)</p>
+            <span class="badge" style="background:#6b7280; color:#fff; font-weight:700; padding:7px 12px; border-radius:12px;">Guest Faculty</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT US -->
+  <section id="about" class="about">
+    <div class="container">
+      <div class="section-title">
+        <h2>About Raptor Academy</h2>
+        <p>Our mission & values</p>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-10">
+          <div class="bg-white rounded-3 p-4 shadow-sm">
+            <p style="margin:0; color:var(--muted); line-height:1.6;">
+              Raptor Academy is a leading defence training institute dedicated to preparing aspirants for Police, Army, Navy, and Air Force careers.
+              Combining disciplined physical training, tactical field exercises, and expert coaching in reasoning and academics, we focus on
+              holistic development — fitness, mindset, and exam readiness. Our trainers are experienced professionals and achievers who guide
+              students through real-world drills, mock tests, and personalised mentorship to help them succeed in competitive selection processes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOIN FORM -->
+  <section id="join" class="join">
+    <div class="container">
+      <div class="section-title">
+        <h2>Join Raptor Academy</h2>
+        <p>Take the first step towards your defense career. Fill the form and we'll contact you.</p>
+      </div>
+
+      <div class="join-card reveal">
+        <form id="joinForm" onsubmit="return handleJoinSubmit(event)">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Full Name *</label>
+              <input id="fullName" name="fullName" type="text" class="form-control" placeholder="Full Name" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Phone Number (10 digits) *</label>
+              <input id="phoneNumber" name="phoneNumber" type="tel" class="form-control" placeholder="Phone Number" required pattern="[0-9]{10}">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Highest Qualification *</label>
+              <select id="qualification" name="qualification" class="form-select" required>
+                <option value="">Select Highest Qualification</option>
+                <option>10th</option>
+                <option>12th</option>
+                <option>Diploma</option>
+                <option>Graduate</option>
+                <option>Post Graduate</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label small fw-semibold">Location *</label>
+              <input id="location" name="location" type="text" class="form-control" placeholder="Location" required>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label small fw-semibold">Why do you want to join Raptor Academy?</label>
+              <textarea id="message" name="message" rows="4" class="form-control" placeholder="Tell us something..."></textarea>
+            </div>
+
+            <div class="col-12 text-center">
+              <button id="submitBtn" type="submit" class="btn btn-lg" style="background:linear-gradient(90deg,var(--nav-navy),var(--deep-navy)); color:#fff; border-radius:10px; padding:10px 30px; font-weight:700;">
+                Submit & Send to WhatsApp
+              </button>
+              <div class="form-note">We will open WhatsApp with your details so you can confirm and send the message.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container text-center">
+      <div class="mb-2 fw-semibold">Govt. Practicing High School, Hanamkonda, 506001</div>
+      <div class="mb-2">Contact: 8886364324 | 8886364326</div>
+      <div class="small text-muted" style="color:rgba(255,255,255,0.75)">© <span id="year"></span> Raptor Academy. All Rights Reserved.</div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <a id="waFab" class="whatsapp-fab" href="#" title="Chat on WhatsApp" aria-label="WhatsApp chat">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Bootstrap JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // === CONFIG - replace with your whatsapp phone number in international format without '+' e.g. 917799603885
+    const WHATSAPP_NUMBER = '917799603885'; // <-- REPLACE THIS
+
+    // footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {threshold: 0.12});
+    reveals.forEach(el => obs.observe(el));
+
+    // WhatsApp FAB quick message
+    document.getElementById('waFab').addEventListener('click', function(e){
+      e.preventDefault();
+      if(!WHATSAPP_NUMBER || WHATSAPP_NUMBER.trim()===''){
+        alert('Please set your WhatsApp number in the script (WHATSAPP_NUMBER).');
+        return;
+      }
+      const text = encodeURIComponent('Hi Raptor Academy, I would like to know more about your courses.');
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
+    });
+
+    // Form handler: open whatsapp with message (encode once)
+    function handleJoinSubmit(e){
+      e.preventDefault();
+      const name = document.getElementById('fullName').value.trim();
+      const phone = document.getElementById('phoneNumber').value.trim();
+      const qualification = document.getElementById('qualification').value.trim();
+      const location = document.getElementById('location').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      const phoneRegex = /^[0-9]{10}$/;
+      if(!name){ alert('Please enter your name'); return false; }
+      if(!phoneRegex.test(phone)){ alert('Please enter a valid 10-digit phone number'); return false; }
+      if(!qualification){ alert('Please select highest qualification'); return false; }
+      if(!location){ alert('Please enter your location'); return false; }
+      if(!WHATSAPP_NUMBER || WHATSAPP_NUMBER.trim()===''){ alert('Please set your WhatsApp number in the script (WHATSAPP_NUMBER).'); return false; }
+
+      // Build prefilled message, then encode whole string
+      let msg = `New Enquiry from Raptor Academy Website:\n`;
+      msg += `Name: ${name}\n`;
+      msg += `Phone: ${phone}\n`;
+      msg += `Qualification: ${qualification}\n`;
+      msg += `Location: ${location}\n`;
+      if(message) msg += `Message: ${message}\n`;
+      msg += `\n(Please respond to this enquiry)`;
+
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+      return false;
+    }
+
+    // Close navbar on nav click (mobile)
+    document.querySelectorAll('.navbar .nav-link').forEach(a=>{
+      a.addEventListener('click', ()=> {
+        const nav = document.querySelector('.navbar-collapse');
+        if(nav.classList.contains('show')){
+          new bootstrap.Collapse(nav).toggle();
+        }
+      });
+    });
+
+    // Pause carousel videos when slide changes
+    const galleryCarousel = document.getElementById('galleryCarousel');
+    if(galleryCarousel){
+      galleryCarousel.addEventListener('slid.bs.carousel', function () {
+        // pause any HTML5 videos
+        galleryCarousel.querySelectorAll('video').forEach(v => v.pause());
+        // stop youtube iframes by resetting src (only if you want autoplay disabled). We'll not reset to preserve position.
+      });
+    }
+  </script>
+</body>
+</html>

@@ -108,7 +108,7 @@
     /* SECTION TITLES */
     .section-title { margin-top:32px; margin-bottom:18px; text-align:center; }
     .section-title h2 { font-weight:800; color: var(--deep-navy); }
-    .section-title p { color:var(--muted); margin:0; margin-bottom:56px; }
+    .section-title p { color:var(--muted); margin:0; margin-bottom:55px}
 
     /* COURSES: equal height columns + polished look */
     .courses { padding:40px 0; }
@@ -150,15 +150,37 @@
     }
     .gallery .carousel { max-width:980px; margin:0 auto; }
 
-    /* premium gallery button */
-    .btn-premium {
-      background: linear-gradient(90deg,var(--gold),var(--accent));
-      color: #08102a; border-radius:14px; padding:12px 28px; font-weight:800;
-      box-shadow: 0 14px 36px rgba(3,24,58,0.18);
-      border: none;
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-    .btn-premium:hover { transform: translateY(-4px); box-shadow: 0 22px 46px rgba(3,24,58,0.2); }
+/* premium gallery button */
+.btn-premium {
+  background: linear-gradient(90deg, #f7d778, #e4b653, #d79c33);
+  color: #08102a;
+  border-radius: 18px;
+  padding: 16px 36px;
+  font-weight: 900;
+  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 14px 36px rgba(3,24,58,0.22);
+  border: none;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.btn-premium:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(3,24,58,0.25);
+}
+
+/* LEFT arrow button */
+.btn-left {
+  flex-direction: row; /* arrow → left */
+}
+
+/* RIGHT arrow button */
+.btn-right {
+  flex-direction: row-reverse; /* arrow → right */
+}
 
     /* Join form */
     .join { padding:48px 0; }
@@ -196,38 +218,240 @@
       .course-card:hover { transform:none; } /* disable hover on touch for better UX */
       .ticker { animation: scroll-left 26s linear infinite; }
     }
+
+      /* Premium Carousel Arrows */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: none !important; /* remove default Bootstrap arrow */
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #f7d778, #e4b653, #d79c33);
+  box-shadow: 0 8px 20px rgba(3,24,58,0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-control-prev-icon::after,
+.carousel-control-next-icon::after {
+  content: '';
+  width: 18px;
+  height: 18px;
+  border-top: 4px solid #08102a;
+  border-right: 4px solid #08102a;
+  display: block;
+}
+
+/* Left arrow (rotate 225°) */
+.carousel-control-prev-icon::after {
+  transform: rotate(-135deg);
+}
+
+/* Right arrow (rotate 45°) */
+.carousel-control-next-icon::after {
+  transform: rotate(45deg);
+}
+@media (max-width: 768px) {
+  #courses .row {
+    justify-content: center !important;
+    text-align: center;
+  }
+}
+@media (max-width: 768px) {
+  .faculty .avatar {
+    margin-top: -40px !important;  /* reduce overlap */
+    width: 100px !important;       /* slightly smaller image */
+    height: 100px !important;
+  }
+  .faculty .card {
+    padding-top: 60px !important;  /* gives more breathing space */
+  }
+}
+.faculty .card {
+  display: flex;
+  flex-direction: column;
+}
+
+.faculty-badge {
+  margin-top: auto;      /* pushes badge to bottom */
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  display: inline-block;
+  align-self: center;    /* center horizontally */
+  background: linear-gradient(90deg,var(--gold),var(--accent));
+  color: #08102a;
+}
+
+.faculty-badge.guest {
+  background: #6b7280;
+  color: #fff;
+}
+      /* Fix gallery carousel height */
+#galleryCarousel .carousel-inner {
+  height: 480px;   /* set your desired fixed height */
+}
+
+#galleryCarousel .carousel-item > img,
+#galleryCarousel .carousel-item > video {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Fix YouTube iframe */
+#galleryCarousel .carousel-item .ratio {
+  height: 100% !important;
+}
+
+#galleryCarousel iframe {
+  height: 100% !important;
+  width: 100% !important;
+  object-fit: cover;
+}
+@media (max-width: 768px) {
+  #galleryCarousel .carousel-inner {
+    height: 360px;
+  }
+}
+#courses .row {
+  justify-content: center !important;
+}
+#courses .row {
+  justify-content: space-evenly !important;
+}
+
+/* === Prevent sticky navbar from covering anchored headings ===
+   Uses CSS variable --nav-offset (set by JS) */
+:root {
+  --nav-offset: 72px; /* fallback height */
+}
+
+/* apply a scroll offset so in-page anchors land below the sticky navbar */
+section,
+.header-anchor,
+.section-title,
+[id] {
+  scroll-margin-top: calc(var(--nav-offset) + 16px); /* 16px extra breathing room */
+}
+
+/* extra safe rule for headings specifically */
+section h2, .section-title h2 {
+  scroll-margin-top: calc(var(--nav-offset) + 20px);
+}
+
+/* for browsers / behavior that use scrollIntoView with smooth behaviour */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optional: if you use anchor <a href="#join"> that points to an empty element,
+   ensure any tiny anchor element also respects the margin */
+.anchor-offset {
+  display:block;
+  height:0;
+  margin-top: calc(var(--nav-offset) * -1); /* if you prefer the "anchor element" technique */
+  visibility: hidden;
+}
+section {
+  scroll-margin-top: 40px;   /* reduce space */
+}
+
+section h2 {
+  scroll-margin-top: 70px;   /* slight extra for headings */
+}
+
+
+.ra-badge {
+  width: 72px;     /* decrease from 80 → 72 */
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+  border: none !important;
+  padding: 0;
+}
+
+
+
+
+
+.ra-logo {
+  width: 140%;
+  height: 140%;
+  object-fit: cover;
+}
+      .text-muted1 {
+
+  color: #ffffff !important;
+}
+
+.made-with-love {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.made-with-love a {
+  color: #FFFFFF;  /* gold color */
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.made-with-love a:hover {
+  text-decoration: underline;
+}
+
+.heart {
+  color: #ff4b5c; /* red heart */
+}
+
+
+
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="#">
-        <div class="ra-badge" aria-hidden="true">RA</div>
-        <div>
-          <div style="font-weight:800;">RAPTOR ACADEMY</div>
+        <a class="navbar-brand d-flex align-items-center" href="#">
+
+            <!-- Logo Circle -->
+            <div class="ra-badge" aria-hidden="true">
+                <img src="logo.png" alt="Raptor Academy Logo" class="ra-logo">
+            </div>
+
+            <!-- Academy Name -->
+            <div class="ms-2">
+                <div style="font-weight:800;">RAPTOR ACADEMY</div>
+            </div>
+
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+            <ul class="navbar-nav align-items-center">
+                <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+                <li class="nav-item"><a class="nav-link" href="#faculty">Faculty</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="#join">Join</a></li>
+            </ul>
         </div>
-      </a>
-
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse justify-content-end" id="mainNav">
-        <ul class="navbar-nav align-items-center">
-          
-          <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
-          <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
-          <li class="nav-item"><a class="nav-link" href="#faculty">Faculty</a></li>
-          <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
-          <li class="nav-item"><a class="nav-link" href="#join">Join</a></li>
-        </ul>
-      </div>
     </div>
-  </nav>
+</nav>
 
-  <!-- ANNOUNCEMENTS TICKER -->
+
+
+<!-- ANNOUNCEMENTS TICKER -->
   <div id="announcements" class="announcements">
     <div class="container d-flex align-items-center">
       <div class="speaker text-warning pe-2"><i class="fas fa-bullhorn"></i></div>
@@ -276,7 +500,7 @@
         <div class="col-12 col-md-6 col-lg-3 equal-col">
           <div class="course-card reveal">
             <div class="course-media">
-              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1600&auto=format&fit=crop&s=1e2e9f3e2f3d2a1b3c4d5e6f7a8b9c0d" alt="Police">
+              <img src="Police.jpeg" alt="Police">
             </div>
             <div class="course-body">
               <div class="card-caption">Police</div>
@@ -288,7 +512,7 @@
         <div class="col-12 col-md-6 col-lg-3 equal-col">
           <div class="course-card reveal">
             <div class="course-media">
-              <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=1600&auto=format&fit=crop&s=87c8c2f2c35b0f2dec0f0f12a3a87cf3" alt="Army">
+              <img src="Army.jpg" alt="Army">
             </div>
             <div class="course-body">
               <div class="card-caption">Army</div>
@@ -300,7 +524,7 @@
         <div class="col-12 col-md-6 col-lg-3 equal-col">
           <div class="course-card reveal">
             <div class="course-media">
-              <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600&auto=format&fit=crop&s=9a0f9f2a7b6e8c3f2e1a5d4c3b2a1e0f" alt="Navy">
+              <img src="Navy.jpg" alt="Navy">
             </div>
             <div class="course-body">
               <div class="card-caption">Navy</div>
@@ -312,7 +536,7 @@
         <div class="col-12 col-md-6 col-lg-3 equal-col">
           <div class="course-card reveal">
             <div class="course-media">
-              <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=1600&auto=format&fit=crop&s=3a7c3e4f5b6c7d8e9f0a1b2c3d4e5f6a" alt="Airforce">
+              <img src="Airforce.jpg" alt="Airforce">
             </div>
             <div class="course-body">
               <div class="card-caption">Airforce</div>
@@ -366,12 +590,13 @@
         </div>
 
         <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon bg-white rounded-circle p-2" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon bg-white rounded-circle p-2" aria-hidden="true" style="filter: hue-rotate(10deg);"></span>
-          <span class="visually-hidden">Next</span>
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+
+            <span class="visually-hidden">Next</span>
         </button>
       </div>
 
@@ -400,7 +625,8 @@
             </div>
             <h5>Arramraju Naveen Raju</h5>
             <p>Arithmetic, Pure Maths & Reasoning Faculty</p>
-            <span class="badge" style="background: linear-gradient(90deg,var(--gold),var(--accent)); color:#08102a; font-weight:700; padding:8px 12px; border-radius:12px;">Faculty Head</span>
+              <span class="faculty-badge">Faculty Head</span>
+
           </div>
         </div>
 
@@ -411,11 +637,75 @@
             </div>
             <h5>Thota Harish</h5>
             <p>RSI (Group 2 Ranker)</p>
-            <span class="badge" style="background:#6b7280; color:#fff; font-weight:700; padding:7px 12px; border-radius:12px;">Guest Faculty</span>
+              <span class="faculty-badge guest">Guest Faculty</span>
+
           </div>
         </div>
       </div>
     </div>
+      <!-- Updated Faculty Section with Physical Training Instructors -->
+      <!-- Paste this inside your existing <section id="faculty"> BEFORE the closing </section> -->
+
+      <!-- PHYSICAL TRAINING SECTION -->
+      <div class="container mt-5">
+          <div class="section-title">
+              <h2>Physical Training Instructors</h2>
+              <p>Elite trainers leading our outdoor physical programs</p>
+          </div>
+
+          <div class="row g-4 justify-content-center">
+
+              <!-- Prashanth Sir -->
+              <div class="col-12 col-md-6 col-lg-3 d-flex">
+                  <div class="card reveal flex-fill">
+                      <div class="avatar mx-auto">
+                          <img src="trainer1.jpg" alt="RSI Prashanth Sir" style="width:100%;height:100%;object-fit:cover;">
+                      </div>
+                      <h5>RSI Prashanth</h5>
+                      <p>Lead Physical Trainer</p>
+                      <span class="faculty-badge">RSI</span>
+                  </div>
+              </div>
+
+              <!-- Rushikesh Sir -->
+              <div class="col-12 col-md-6 col-lg-3 d-flex">
+                  <div class="card reveal flex-fill">
+                      <div class="avatar mx-auto">
+                          <img src="trainer2.jpg" alt="RSI Rushikesh Sir" style="width:100%;height:100%;object-fit:cover;">
+                      </div>
+                      <h5>RSI Rushikesh</h5>
+                      <p>Strength & Endurance Coach</p>
+                      <span class="faculty-badge">RSI</span>
+                  </div>
+              </div>
+
+              <!-- Cobra Commander Ram Sir -->
+              <div class="col-12 col-md-6 col-lg-3 d-flex">
+                  <div class="card reveal flex-fill">
+                      <div class="avatar mx-auto">
+                          <img src="trainer3.jpg" alt="Cobra Commander Ram" style="width:100%;height:100%;object-fit:cover;">
+                      </div>
+                      <h5>Cobra Commander Ram</h5>
+                      <p>Combat & Tactical Training</p>
+                      <span class="faculty-badge guest">Commander</span>
+                  </div>
+              </div>
+
+              <!-- Commander Rajesh Sir -->
+              <div class="col-12 col-md-6 col-lg-3 d-flex">
+                  <div class="card reveal flex-fill">
+                      <div class="avatar mx-auto">
+                          <img src="trainer4.jpg" alt="Commander Rajesh" style="width:100%;height:100%;object-fit:cover;">
+                      </div>
+                      <h5>Commander Rajesh</h5>
+                      <p>Field Drills & Discipline Coach</p>
+                      <span class="faculty-badge guest">Commander</span>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+
   </section>
 
   <!-- ABOUT US -->
@@ -501,8 +791,13 @@
     <div class="container text-center">
       <div class="mb-2 fw-semibold">Govt. Practicing High School, Hanamkonda, 506001</div>
       <div class="mb-2">Contact: 8886364324 | 8886364326</div>
-      <div class="small text-muted" style="color:rgba(255,255,255,0.75)">© <span id="year"></span> Raptor Academy. All Rights Reserved.</div>
-    </div>
+      <div class="small text-muted1" style="color:rgba(255,255,255,0.75)">© <span id="year"></span> Raptor Academy. All Rights Reserved.</div>
+        <div class="mt-2 made-with-love">
+            Made with <span class="heart">♥</span> by
+            <a href="https://your-website.com" target="_blank">
+                Dileep Raju Ambati
+            </a>
+        </div></div>
   </footer>
 
   <!-- Floating WhatsApp -->
@@ -514,8 +809,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    // === CONFIG - replace with your whatsapp phone number in international format without '+' e.g. 917799603885
-    const WHATSAPP_NUMBER = '917799603885'; // <-- REPLACE THIS
+    // === CONFIG - replace with your whatsapp phone number in international format without '+' e.g. 918184968196
+    const WHATSAPP_NUMBER = '918184968196'; // <-- REPLACE THIS
 
     // footer year
     document.getElementById('year').textContent = new Date().getFullYear();
@@ -591,7 +886,32 @@
         // stop youtube iframes by resetting src (only if you want autoplay disabled). We'll not reset to preserve position.
       });
     }
+
+        (function(){
+    const root = document.documentElement;
+    const navbar = document.querySelector('.navbar');
+
+    function updateNavOffset() {
+      if(!navbar) return;
+      // include any extra offset if you have a top announcement bar etc.
+      const extra = 8; // extra breathing room in px
+      const h = navbar.offsetHeight + extra;
+      root.style.setProperty('--nav-offset', h + 'px');
+    }
+
+    // initial set
+    updateNavOffset();
+
+    // update on resize
+    window.addEventListener('resize', updateNavOffset);
+
+    // update when bootstrap navbar toggles (mobile). Works because collapse triggers shown.bs.collapse / hidden.bs.collapse events
+    document.addEventListener('shown.bs.collapse', updateNavOffset);
+    document.addEventListener('hidden.bs.collapse', updateNavOffset);
+
+    // optional: recompute after fonts/images load (in case layout shifts)
+    window.addEventListener('load', updateNavOffset);
+  })();
   </script>
 </body>
 </html>
-

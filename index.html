@@ -378,6 +378,55 @@ section h2 {
 }
 
 
+/* Background logo behind courses */
+#courses {
+  position: relative;
+  overflow: hidden;
+}
+
+#courses::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1150px;           /* default size for desktop */
+  height:1125px;
+  background: url("logo.png") no-repeat center/contain;
+  opacity: 0.50;          /* adjust visibility */
+  z-index: 0;
+  pointer-events: none;
+}
+
+#courses .container {
+  position: relative;
+  z-index: 2;              /* content above logo */
+}
+
+/* === RESPONSIVE LOGO SIZES === */
+@media (max-width: 992px) {      /* tablets */
+  #courses::before {
+    width: 320px;
+    height: 320px;
+    opacity: 0.12;              /* slightly more visible on small screens */
+  }
+}
+
+@media (max-width: 768px) {      /* mobile */
+  #courses::before {
+    width: 240px;
+    height: 240px;
+    opacity: 0.15;              /* increase visibility ONLY slightly */
+  }
+}
+
+@media (max-width: 480px) {      /* small mobile */
+  #courses::before {
+    width: 180px;
+    height: 180px;
+    opacity: 0.16;              /* optimized for small display */
+  }
+}
 
 
 
